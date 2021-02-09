@@ -52,8 +52,7 @@
       ansible.builtin.debug:
         var: ansible_facts.services['docker.service']
 
- #   - name: Run docker hello
-  #    docker_container:
-   #     name: hello-world
-    #    image: hello-world
-     #   status: present
+    - name: Run docker hello
+      community.general.docker_image:
+        name: hello-world
+        source: pull
