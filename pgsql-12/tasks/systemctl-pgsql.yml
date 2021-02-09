@@ -1,0 +1,3 @@
+---
+- name: Автозагрузка и запуск PostgreSQL 12
+  block: 

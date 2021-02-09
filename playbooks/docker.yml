@@ -1,0 +1,41 @@
+---
+- name: Install Docker
+  hosts: VM_SERVERS
+  become: yes
+
+  tasks:
+    - name: Install yum-utils
+      yum:
+        name: yum-utils
+        state: latest
+
+    - name: Add Docker repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docer-ce.repo
+      become: yes
+
+    - name: Install Docker-CE
+      yum:
+        name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
+        state: latest
+
+    - name: Install Docker Compose
+      yum:
+        name: ['epel-release', 'python-pip', 'python-devel', 'gcc', 'python3-pip']
+        state: latest
+
+    - name: Install Docker Compose
+      shell: |
+        curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
+        chmod +x /usr/local/bin/docker-compose
+        ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+    - name: Enabled Docker systemctl
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    
+    - name: Check systemctl status docker
+      shell: systemctl status docker

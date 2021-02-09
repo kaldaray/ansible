@@ -1,0 +1,24 @@
+# Установка PostgeSQL
+- block:
+  - name: PostgreSQL install requirements
+    yum:
+      name: yum install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+      state: latest
+
+  - name: Install PostgreSQL
+    yum: 
+      name: ['postgresql12-server', 'postgresql12', 'postgresql12-contrib']
+      state: latest
+
+  - name: Init db
+    ansible.builtin.shell:
+      cmd: /usr/pgsql-12/bin/postgresql-12-setup initdb
+
+  - name: Start WebServers and make it enable boot for RedHat
+    service:
+      name: postgresql-12
+      state: started
+      enabled: yes
+
+  - name: Check PostgreSQL status
+    shell: systemctl status postgresql-12

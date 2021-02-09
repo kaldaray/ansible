@@ -1,0 +1,11 @@
+---
+- name: Install Web Server Apache
+  hosts: STAGING_SERVERS_WEB
+  become: yes
+
+  tasks:
+          - name: Install Apache WebServer
+            yum: name=httpd state=latest
+
+          - name: Start Apache and Enable it on the boot
+            service: name=httpd state=started enabled=yes

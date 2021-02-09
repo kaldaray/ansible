@@ -1,0 +1,14 @@
+# Разорачивание БД для Axilink
+- block:
+
+  vars:
+    source_folder: ~/create_axilink_db.sql
+    destin_folder: /home//create_axilink_db.sql
+
+  - name: Задаем пароль пользователя
+    remote_user: remote-user
+    become: yes
+    become_method: su
+    become_user: postgres
+    postgresql_user: 
+  

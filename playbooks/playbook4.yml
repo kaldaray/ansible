@@ -1,0 +1,31 @@
+---
+- name: My super puper playbook for Variables Lesson
+  hosts: all
+  become: yes
+
+
+  vars:
+          message1: Privet
+          message2: World
+          secret  : DSADASJIFJASK213123
+
+  tasks:
+          - name: Print Secret Variable
+            debug:
+                    var: secret
+          - debug:
+                  msg: "Secretnoe slovo: {{ secret  }}"
+
+          - set_fact: full_message = "{{ message1 }} {{ message2 }}"
+
+          - debug:
+                  var: full_message
+
+          - debug:
+                  var: ansible_distribution
+          - shell: uptime
+            register: results
+          
+          - debug:
+                  var: results
+                  
