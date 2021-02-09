@@ -1,0 +1,7 @@
+[STAGING_SERVERS_WEB]
+Amazon-1 ansible_host=18.191.221.145
+Amazon-2 ansible_host=18.223.151.239
+
+[PROD_SERVERS_WEB]
+Ubuntu ansible_host=3.138.246.180
+
