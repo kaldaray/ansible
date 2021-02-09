@@ -1,14 +1,14 @@
 # Настройка фаервола
 - block:
-  - name: Open pgsql port 5432
-    ansible.builtin.shell:
-      cmd: sudo firewall-cmd --add-port=5432/tcp --permanent
+    - name: Open pgsql port 5432
+      ansible.builtin.shell:
+        cmd: sudo firewall-cmd --add-port=5432/tcp --permanent
 
-  - name: Restarted firewall
-    service:
-      name: firewalld
-      state: restarted
-      enabled: yes
+    - name: Restarted firewall
+      service:
+        name: firewalld
+        state: restarted
+        enabled: yes
 
-  - name: Check firewall status
-    shell: systemctl status firewalld
+    - name: Check firewall status
+      shell: systemctl status firewalld

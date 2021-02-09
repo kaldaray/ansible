@@ -4,10 +4,12 @@
   become: yes
 
   tasks:
-    - name: Install yum-utils
+    - name: Install yum utils
       yum:
-        name: yum-utils
-        state: latest
+        name:
+        - yum-utils
+        - "@Development tools"
+        lock_timeout: 180
 
     - name: Add Docker repo
       get_url:
@@ -17,25 +19,41 @@
 
     - name: Install Docker-CE
       yum:
-        name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
+        name: ["docker-ce", "docker-ce-cli", "containerd.io"]
         state: latest
 
     - name: Install Docker Compose
       yum:
-        name: ['epel-release', 'python-pip', 'python-devel', 'gcc', 'python3-pip']
+        name:
+          ["epel-release", "python-pip", "python-devel", "gcc", "python3-pip"]
+        state: latest
+
+    - name: Update python for Doker Compose
+      yum: 
+        name: python 
         state: latest
 
     - name: Install Docker Compose
-      shell: |
-        curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
-        chmod +x /usr/local/bin/docker-compose
-        ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+      yum:
+        name:
+          ["epel-release", "python-pip", "python-devel", "gcc", "python3-pip"]
+        state: latest
 
-    - name: Enabled Docker systemctl
-      service:
-        name: docker
+    - name: Start Docker systemctl
+      ansible.builtin.systemd:
         state: started
+        name: docker        
         enabled: yes
-    
-    - name: Check systemctl status docker
-      shell: systemctl status docker
+
+    - name: Populate service facts
+      ansible.builtin.service_facts:
+
+    - name: Print service facts
+      ansible.builtin.debug:
+        var: ansible_facts.services['docker.service']
+
+ #   - name: Run docker hello
+  #    docker_container:
+   #     name: hello-world
+    #    image: hello-world
+     #   status: present
